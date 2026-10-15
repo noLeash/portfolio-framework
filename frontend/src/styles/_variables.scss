@@ -1,0 +1,99 @@
+// Color Palette
+$primary-color: #5997b4; // Primary brand colork
+$secondary-color: #7c4818; // Secondary brand color
+
+// src/styles/abstract/_variables.scs
+// $data-background-color: #aec7b9;
+// $data-display-style: inline-flex;
+
+// // Color Palette
+// $primary-color: #06425e; // Primary brand colork
+// $secondary-color: #18687c; // Secondary brand color
+$text-color: #871010; // Default text color
+// $text-muted-color: #817a7a; // Muted text color
+// // $background-color: #181d24;
+$background-color: #dadada;
+$background-secondary-color: #ceb9b9;
+// $border-color: #8b2525;
+// $banner-block-color: #000000; // Secondary brand color
+// $tirsh-color: #4b4b4b; // Secondary brand color
+// $detail-color: #bebebe; // Secondary brand color
+// $text-color: #2c2c2c; // Default text color
+$link-text-color: #003c81;
+$link-visited-color: #12254f;
+// $hover-color: rgb(17, 96, 133); // Hover state color
+// $hover-bg-color: rgba(65, 153, 194, 0.1); // Hover background color
+// $button-color: rgb(178, 177, 182); // Hover state color
+// $button-text-color: rgb(34, 6, 24); // Hover state color
+// $alert-background: #333333;
+// $alert-txt-color: rgb(144, 128, 128);
+
+// // Typography
+$font-stack: "Work Sans", sans-serif; // Base font family
+// $font-size-base: 16px; // Base font size
+$font-weight-ultralight: 375; // Normal font weight
+$font-weight-normal: 400; // Normal font weight
+$font-weight-medium: 500; // Bold font weight
+$font-weight-bold: 600; // Bold font weight
+$font-copy-size: 12px;
+// $font-copy-size-small: 11px;
+$font-h1-size: 28px;
+$font-h2-size: 18px;
+$font-h3-size: 14px;
+// $font-btn-size: 14px;
+// $font-small: 10px;
+// $font-med: 12px;
+// $font-large: 14px;
+// $font-small-header: 12px;
+// $font-med-header: 15px;
+// $font-med-data: 12px;
+// $font-small-data: 10px;
+// $font-large-data: 16px;
+// $font-company-name: 19px;
+// $font-large-symbol: 36px;
+// $font-max: 32px;
+// $font-page-title: 19px;
+
+// // Spacing
+$spacing-unit: 16px; // Base spacing unit
+// $spacing-unit-tiny: 3px; // Tiny spacing unit
+$spacing-unit-small: 6px; // Tiny spacing unit
+$spacing-unit-med: 10px; // Tiny spacing unit
+// $spacing-unit-large: 16px; // Tiny spacing unit
+// $padding-small: calc($spacing-unit / 2); // Small padding
+// $padding-medium: $spacing-unit; // Medium padding
+// $padding-large: calc($spacing-unit * 2); // Large padding
+// $padding-dynamic-small: 3vw; // Small Dynamic padding for elements
+// $block-height-medium: 1.7lh;
+// $component-gap: 20px;
+
+// // Borders
+// $border-radius: 4px; // Default border radius
+// $border-color: #dddddd; // Default border color
+// $border-width: 1px; // Default border width
+
+// //Radiai
+// $radius-1: 2px;
+
+// // Margins
+// $margin-component-small: 5px;
+
+// //Icon sizes
+// $icon-small: 15px;
+
+// //Plotly
+// $range-bar-fill: rgba(109, 109, 109, 0.35);
+// $range-bar-marker: rgb(183, 9, 175);
+
+// :root {
+//   --range-bar-fill: #{$range-bar-fill};
+//   --range-bar-marker: #{$range-bar-marker};
+// }
+
+// $input-height-md: 36px;
+// $input-height-sm: 30px;
+// $input-width-md: 300px;
+// $input-width-sm: 150px;
+// $button-width-sm: 100px;
+// $button-width-md: 150px;
+// $button-width-lg: 200px;

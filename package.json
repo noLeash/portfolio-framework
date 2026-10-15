@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "jwt-encode": "^1.0.1",
+    "rsuite-table": "^5.19.2"
+  }
+}

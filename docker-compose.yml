@@ -1,0 +1,101 @@
+services:
+  frontend-gcomollo:
+    image: node:20-bookworm
+    container_name: frontend-gcomollo
+    working_dir: /frontend
+    command: sh -lc "npm install && npm run dev -- --host 0.0.0.0 --port 5172"
+    ports:
+      - "5174:5172"
+    volumes:
+      - ./frontend:/frontend
+      - frontend_gcomollo_node_modules:/frontend/node_modules
+    networks:
+      - shared-proxy
+
+  backend-gcomollo:
+    container_name: backend-gcomollo
+    working_dir: /backend
+    command: >
+      sh -lc 'pip install . &&
+      alembic upgrade head &&
+      uvicorn main:app
+      --host 0.0.0.0
+      --port 6942
+      --reload
+      --reload-dir /backend
+      --reload-include "*.py"
+      --reload-include "*.json"
+      --proxy-headers
+      --forwarded-allow-ips="*"'
+    ports:
+      - "6943:6942"
+    env_file:
+      - ./backend/.env.local
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: /backend
+      WATCHFILES_FORCE_POLLING: "true"
+    depends_on:
+      db-gcomollo:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    volumes:
+      - ./backend:/backend
+    networks:
+      - shared-proxy
+      - gcomollo-internal
+
+  db-gcomollo:
+    container_name: db-gcomollo
+    restart: always
+    image: postgres:15-alpine
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5437:5432"
+    env_file:
+      - ./backend/.env.local
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - gcomollo-internal
+
+  jupyter:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    env_file: [./backend/.env.local]
+    working_dir: /backend
+    volumes:
+      - ./backend:/backend
+      - ./backend/.jupyter:/root/.jupyter/jupyter_server_config.py
+    ports:
+      - "8889:8888"
+    command: >
+      jupyter lab
+      --ServerApp.ip=0.0.0.0
+      --ServerApp.port=8888
+      --ServerApp.root_dir=/backend
+      --ServerApp.allow_root=True
+    environment:
+      PYTHONUNBUFFERED: 1
+      PYTHONPATH: /backend
+      WATCHFILES_FORCE_POLLING: "true"
+    depends_on: [backend-gcomollo]
+    networks:
+      - gcomollo-internal
+    init: true
+
+networks:
+  shared-proxy:
+    external: true
+  gcomollo-internal:
+    driver: bridge
+
+volumes:
+  frontend_gcomollo_node_modules:

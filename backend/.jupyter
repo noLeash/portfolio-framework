@@ -1,0 +1,14 @@
+import os
+from dotenv import load_dotenv
+
+filepath = os.pat
+
+c.ServerApp.ip = "0.0.0.0"
+c.ServerApp.port = 8888
+c.ServerApp.root_dir = "/backend"
+c.ServerApp.allow_root = True
+c.ServerApp.open_browser = False
+
+# fixed token from env
+c.ServerApp.token = os.environ.get("JUPYTER_TOKEN", "")
+c.ServerApp.password = ""

@@ -1,0 +1,8 @@
+@use "../variables" as variables;
+
+.user-list {
+  &-container {
+    height: 300px;
+    overflow: scroll;
+  }
+}

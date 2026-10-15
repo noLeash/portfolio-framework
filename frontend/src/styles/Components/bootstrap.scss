@@ -1,0 +1,11 @@
+@use "../variables" as variables;
+
+.status {
+  // background-color: rgb(15, 120, 120);
+  // text-align: left;
+  &-box {
+    background-color: rgb(212, 218, 216);
+    // margin: 10px;
+  }
+  // margin: 10px;
+}

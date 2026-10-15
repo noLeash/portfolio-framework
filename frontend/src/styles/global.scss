@@ -1,0 +1,181 @@
+// src/styles/global.scss
+
+@use "./_variables.scss" as variables;
+// @use "./_fonts" as fonts;
+// @use "rsuite/dist/rsuite.css";
+
+:root {
+  --gain-color: #0c663f; /* green-ish */
+  --loss-color: #871711; /* red-ish */
+  --neutral-color: #222; /* black-ish */
+  height: 100vh;
+}
+
+$primary-color: #4cafef;
+body {
+  margin: 0;
+  //   background: variables.$background-color;
+  //   color: variables.$text-color;
+  //   font-family: variables.$font-stack;
+  padding: 0px;
+  font-size: variables.$font-copy-size;
+  // height: 100vh;
+  // background-color: #6c757d;
+  // font-weight: 100; // this will use work-sans-regular
+}
+
+h1 {
+  font-size: variables.$font-h1-size;
+}
+
+h2 {
+  font-size: variables.$font-h2-size;
+}
+
+h3 {
+  font-size: variables.$font-h3-size;
+  //   font-weight: variables.$font-weight-ultralight;
+}
+
+.key {
+  background-color: black;
+}
+
+.alert {
+  &-button {
+    background-color: #871711;
+  }
+  color: #871711;
+}
+
+// .site {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 50px;
+//   background-color: #4cafef;
+// }
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  // row-gap: variables.$spacing-unit-large;
+  // background-color: #0d6efd;
+  height: 100vh;
+  // padding: variables.$spacing-unit;
+}
+
+// button {
+//   background-color: $primary-color;
+//   // color: #4cafef;
+//   border: none;
+//   padding: 0.5rem 1rem;
+//   border-radius: 8px;
+//   cursor: pointer;
+// }
+
+// .layout {
+// //   display: flex;
+// //   flex-direction: column;
+// //   row-gap: variables.$spacing-unit-med;
+// //   height: 100vh;
+// //   // background: #0d6efd;
+// //   padding: variables.$spacing-unit-small;
+// }
+
+/* Default link styles */
+a {
+  // color: #0d6efd; // brand color
+  text-decoration: none; // remove underline
+  transition: color 0.2s ease;
+
+  &:hover,
+  &:focus {
+    // color: variables.$link-text-color; // darker shade on hover
+    text-decoration: underline;
+  }
+
+  &:visited {
+    // color: variables.$link-visited-color; // muted color for visited links
+  }
+}
+
+.rs-checkbox {
+  &-control {
+    // background-color: variables.$background-secondary-color;
+    border-radius: 5px;
+  }
+}
+
+.grid-box-container {
+  // background-color: yellow;
+  height: fit-content;
+  margin: 10px;
+}
+.grid-box-container::before {
+  content: "";
+  position: absolute;
+  left: 0px; /* where the border would be */
+  top: 5%;
+  transform: translateY(0%);
+  height: 90%; /* the “border” height */
+  width: 1.5px; /* thickness */
+  //   background: variables.$background-secondary-color; /* or any color */
+}
+
+.grid- .rs-grid-container-fluid {
+  row-gap: 50px;
+  // background-color: blue;
+}
+
+.rs-row {
+  margin: 0px;
+  padding: 0px;
+}
+
+.rs-col {
+  margin: 0px;
+  padding: 0px;
+}
+.rs-grid-container-fluid {
+  margin: 0px;
+  padding: 0px;
+}
+
+.navbar .rs-nav.rs-nav-tabs .rs-nav-item {
+  color: #4cafef;
+  // background-color: #181d24;
+}
+
+.rs-navbar {
+  padding-inline: 0px;
+  padding-block: 0px;
+  //   margin-bottom: variables.$spacing-unit;
+}
+
+.rs-table-cell-group-fixed-left {
+  //   background-color: variables.$background-color;
+}
+
+.rs-table-cell-group-fixed-right {
+  //   background-color: variables.$background-color;
+}
+
+// .rs-btn.rs-btn-subtle {
+//   background-color: transparent !important;
+//   border: none !important;
+//   // width: 20px;
+//   // height: 20px;
+// }
+
+input {
+  color: black;
+}
+
+.version-info {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  font-size: 12px;
+  //   color: variables.$alert-txt-color;
+  opacity: 0.5;
+}
