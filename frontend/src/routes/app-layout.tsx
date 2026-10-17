@@ -19,11 +19,11 @@ export default function AppLayout() {
                 </Link>
               </h1>
             </div>
-            {
+            {/* {
               <NavLink to="/" end>
                 Public
               </NavLink>
-            }
+            } */}
 
             {isAuthenticated && (
               <>

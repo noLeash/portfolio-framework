@@ -41,9 +41,11 @@ services:
     build:
       context: .
       dockerfile: ./backend/Dockerfile
-    volumes:
-      - ./backend:/backend
-    networks:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+      args:
+        EXTRAS: notebook
       - shared-proxy
       - gcomollo-internal
 

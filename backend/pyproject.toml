@@ -17,6 +17,7 @@ dependencies = [
     "bcrypt==5.0.0",
     "PyJWT==2.12.1",
     "python-dotenv==1.2.2",
+    "boto3>=1.43.114",
 ]
 
 [project.optional-dependencies]

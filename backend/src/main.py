@@ -5,6 +5,9 @@ from fastapi import FastAPI
 from routes.app_bootstrap import bootstrap
 from routes.auth import auth
 from routes.admin import admin
+from routes.s3 import s3_router as folders_router
+from routes.portfolio import portfolio_router as portfolio_router
+
 
 # Manage Fast API LIFESPAN
 lifespanTasks = []
@@ -34,14 +37,13 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="gcomollo API",
     version="0.1.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
     description="gcomollo API",
-    openapi_url="/openapi.json",
-    root_path="/api",
-    lifespan=lifespan
+    lifespan=lifespan,
+    root_path="/api"
 )
 
 app.include_router(admin, prefix="/admin", tags=["Admin"])
 app.include_router(bootstrap, prefix="/bootstrap", tags=["Bootstrap"])
 app.include_router(auth, prefix="/auth", tags=["Auth"])
+app.include_router(folders_router, prefix="/folders", tags=["Folders"])
+app.include_router(portfolio_router, prefix="/portfolio", tags=["Portfolio"])

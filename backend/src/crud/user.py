@@ -30,12 +30,19 @@ def create_first_user(user: User, login_request: UserLoginRequest):#, user_login
         user.admin = True
         session.add(user)
         session.flush()
+        safe_ip_address = login_request.x_real_ip.split(",")[0]
         is_mobile = True if login_request.sec_ch_ua_mobile else False
+        try:
+            safe_ip_address = login_request.x_real_ip.split(",")[0]
+            safe_fwd_for = login_request.x_forwarded_for.split(",")[0]
+        except Exception as e:
+            safe_ip_address = None
+            safe_fwd_for = None
         login_entry = UserLoginIP(
             user_id=user.id,
-            ip_address=login_request.x_real_ip,
+            ip_address=safe_ip_address,
             user_agent=login_request.user_agent,
-            ip_forwared_for=login_request.x_forwarded_for,
+            ip_forwared_for=safe_fwd_for,
             # access_level=10,
             mobile = is_mobile,
             referer = login_request.referer,
@@ -54,11 +61,17 @@ def create_user(user: User, login_request: UserLoginRequest):#, user_login_ip: U
             session.add(user)
             session.flush()
             is_mobile = True if login_request.sec_ch_ua_mobile else False
+            try:
+                safe_ip_address = login_request.x_real_ip.split(",")[0]
+                safe_fwd_for = login_request.x_forwarded_for.split(",")[0]
+            except Exception as e:
+                safe_ip_address = None
+                safe_fwd_for = None
             login_entry = UserLoginIP(
                 user_id=user.id,
-                ip_address=login_request.x_real_ip,
+                ip_address=safe_ip_address,
                 user_agent=login_request.user_agent,
-                ip_forwared_for=login_request.x_forwarded_for,
+                ip_forwared_for=safe_fwd_for,
                 mobile = is_mobile,
                 referer = login_request.referer,
                 language = login_request.accept_language,
@@ -113,11 +126,17 @@ def log_user_entry(user: User, user_ip_login: UserLoginRequest):
 
         with SessionLocal() as session:
             is_mobile = True if '1' in user_ip_login.sec_ch_ua_mobile else False
+            try:
+                safe_ip_address = user_ip_login.x_real_ip.split(",")[0]
+                safe_fwd_for = user_ip_login.x_real_ip.split(",")[0]
+            except Exception as e:
+                safe_ip_address = None
+                safe_fwd_for = None
             login_entry = UserLoginIP(
                 user_id=user.id,
-                ip_address=user_ip_login.x_real_ip,
+                ip_address=safe_ip_address,
                 user_agent=user_ip_login.user_agent,
-                ip_forwared_for=user_ip_login.x_forwarded_for,
+                ip_forwared_for=safe_fwd_for,
                 mobile = is_mobile,
                 referer = user_ip_login.referer,
                 language = user_ip_login.accept_language,

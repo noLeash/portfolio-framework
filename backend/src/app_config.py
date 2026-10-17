@@ -11,6 +11,8 @@ class Settings:
     ACCESS_TOKEN_EXPIRE_MINUTES: int = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
     SECRET_KEY: str = os.getenv("SECRET_KEY")
     ALGORITHM: str = os.getenv("ALGORITHM")
+    AWS_REGION: str = os.getenv("AWS_REGION")
+    S3_BUCKET: str = os.getenv("S3_BUCKET")
     
 
     @property

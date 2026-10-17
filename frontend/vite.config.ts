@@ -11,6 +11,7 @@ export default defineConfig({
     allowedHosts: [
       "gcomollo-frontend",
       "localhost",
+      "dev.gcomollo.com",
       "gcomollo.localhost",
     ],
     // Backend is mounted with root_path="/api", so strip the prefix before forwarding

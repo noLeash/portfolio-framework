@@ -16,8 +16,7 @@ services:
     container_name: backend-gcomollo
     working_dir: /backend
     command: >
-      sh -lc 'pip install . &&
-      alembic upgrade head &&
+      sh -lc 'alembic upgrade head &&
       uvicorn main:app
       --host 0.0.0.0
       --port 6942
@@ -40,7 +39,7 @@ services:
       context: .
       dockerfile: ./backend/Dockerfile
     volumes:
-      - ./backend:/backend
+      - ./backend/src:/backend
     networks:
       - shared-proxy
       - gcomollo-internal
@@ -63,6 +62,8 @@ services:
     networks:
       - gcomollo-internal
 
+      
+
 networks:
   shared-proxy:
     external: true
@@ -71,3 +72,4 @@ networks:
 
 volumes:
   frontend_gcomollo_node_modules:
+
