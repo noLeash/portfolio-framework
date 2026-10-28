@@ -1,0 +1,190 @@
+@use "../variables" as variables;
+@use "../breakpoints" as bp;
+
+.portfolio-name {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+
+  h3 {
+    display: inline-block;
+    margin: 0 8px 0 0;
+  }
+}
+
+.portfolio-status {
+  padding: 24px 16px;
+}
+
+// Horizontal gallery filling the main area between the site header and footer
+.portfolio-strip {
+  display: flex;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  background: #111;
+  color: #eee;
+  outline: none;
+  column-gap: 1vw;
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 3px variables.$primary-color;
+  }
+}
+
+.portfolio-strip__intro {
+  flex: 0 0 auto;
+  width: min(420px, 100vw);
+  box-sizing: border-box;
+  padding: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+
+  h1 {
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+    max-width: 40ch;
+    opacity: 0.85;
+  }
+}
+
+.portfolio-strip__hint {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.portfolio-strip__item {
+  position: relative;
+  flex: 0 0 auto;
+  height: 100%;
+  margin: 0;
+
+  img {
+    display: block;
+    height: 100%;
+    width: auto;
+    // Wider than the screen (e.g. panoramas): fit the width and letterbox
+    // max-width: 100vw;
+    object-fit: contain;
+    user-select: none;
+  }
+
+  .video-player {
+    height: 100%;
+    width: auto;
+    max-width: 100vw;
+    border-radius: 0;
+  }
+
+  figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 24px 16px 12px;
+    font-size: 0.9rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    pointer-events: none;
+  }
+
+  // Keep captions clear of the video controls
+  &:has(.video-player) figcaption {
+    top: 0;
+    bottom: auto;
+    padding: 12px 16px 24px;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), transparent);
+  }
+}
+
+.portfolio-strip__empty {
+  align-self: center;
+  padding: 0 32px;
+}
+
+// Phones: the same gallery as a vertical column at full width. The page's main
+// area does the scrolling, so the strip just grows to fit its items.
+@include bp.phone {
+  .portfolio-strip {
+    flex: 1 0 auto;
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .portfolio-strip__intro {
+    width: auto;
+    padding: 32px 16px;
+  }
+
+  .portfolio-strip__item {
+    height: auto;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    .video-player {
+      width: 100%;
+      height: auto;
+      max-width: none;
+    }
+  }
+
+  .portfolio-strip__empty {
+    padding: 0 16px 32px;
+  }
+}
+
+// Inline name/description editing on the edit portfolio page
+.editable-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 480px;
+}
+
+.editable-field__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.editable-field__empty {
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.portfolio-url {
+  display: block;
+  margin: -8px 0 16px;
+  opacity: 0.7;
+}
+
+.portfolio-publish {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.deleted-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 8px;
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+}

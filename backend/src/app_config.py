@@ -13,6 +13,10 @@ class Settings:
     ALGORITHM: str = os.getenv("ALGORITHM")
     AWS_REGION: str = os.getenv("AWS_REGION")
     S3_BUCKET: str = os.getenv("S3_BUCKET")
+    AWS_DEFAULT_REGION: str = os.getenv("AWS_DEFAULT_REGION")
+    AWS_ACCESS_KEY_ID: str = os.getenv("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY: str = os.getenv("AWS_SECRET_ACCESS_KEY")
+    CLOUDFRONT_BASE_URL: str = os.getenv("CLOUDFRONT_BASE_URL")
     
 
     @property

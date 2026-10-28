@@ -1,0 +1,189 @@
+@use "../variables" as variables;
+@use "../breakpoints" as bp;
+
+// Tile heights per display size, as % of the viewport height.
+// Keep in sync with HEIGHT_VH in components/Collections/Landing.tsx
+$landing-heights: (
+  s: 30vh,
+  m: 45vh,
+  l: 70vh,
+);
+$landing-gap: 16px;
+
+.landing-status {
+  padding: 24px 16px;
+}
+
+.landing {
+  padding: $landing-gap;
+}
+
+// Wrapped collage: images flow into rows like text, each at its own height
+.landing-collage {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: $landing-gap;
+
+  > li {
+    max-width: 100%;
+  }
+}
+
+.landing-item {
+  position: relative;
+  margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+
+  img,
+  video {
+    display: block;
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    transition:
+      transform 0.4s ease,
+      filter 0.3s ease;
+  }
+
+  @each $size, $height in $landing-heights {
+    &--#{$size} {
+      height: $height;
+    }
+  }
+
+  &:hover :is(img, video),
+  &:focus-within :is(img, video) {
+    transform: scale(1.02);
+    filter: brightness(0.8);
+  }
+}
+
+// Modal-mode video: the whole poster is the play button
+.landing-item__play {
+  position: relative;
+  display: block;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid variables.$primary-color;
+    outline-offset: -3px;
+  }
+}
+
+.landing-item__play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  transform: translate(-50%, -50%);
+  transition: background 0.2s ease;
+
+  .landing-item__play:hover &,
+  .landing-item__play:focus-visible & {
+    background: variables.$primary-color;
+  }
+}
+
+// Link to the image's project, shown on hover or keyboard focus
+.landing-item__link {
+  position: absolute;
+  z-index: 1; // above the play button
+  left: 12px;
+  bottom: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #111;
+  font-size: 0.9rem;
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+
+  .landing-item:hover &,
+  &:focus-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  &:hover {
+    background: variables.$primary-color;
+    color: #fff;
+  }
+
+  &:focus-visible {
+    outline: 3px solid variables.$primary-color;
+    outline-offset: 2px;
+  }
+
+  // Touch screens can't hover, so always show it there
+  @media (hover: none) {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Phones: S pairs up two per row, M and L run full width
+@include bp.phone {
+  .landing-collage {
+    align-items: flex-start;
+
+    > li {
+      flex: 1 1 100%;
+    }
+
+    > li:has(.landing-item--s) {
+      flex: 1 1 calc(50% - #{$landing-gap});
+    }
+  }
+
+  .landing-item {
+    height: auto;
+
+    img,
+    video {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .landing-item__play {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-item :is(img, video),
+  .landing-item__link,
+  .landing-item__play-icon {
+    transition: none;
+  }
+
+  .landing-item:hover :is(img, video),
+  .landing-item:focus-within :is(img, video) {
+    transform: none;
+  }
+}

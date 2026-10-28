@@ -110,15 +110,17 @@ export function useFetch<TData = unknown, TBody = unknown>({
         const mergedHeaders: Record<string, string> = {
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
           ...Object.fromEntries(
-            Object.entries(finalHeaders ?? {}).map(([key, value]) => [
-              key,
-              String(value),
-            ]),
+            Object.entries(finalHeaders ?? {}).map(([k, v]) => [k, String(v)]),
           ),
         };
 
+        const isFormData =
+          typeof FormData !== "undefined" && finalBody instanceof FormData;
+
+        // FormData needs the browser to set the multipart Content-Type/boundary
         if (
           !isGet &&
+          !isFormData &&
           finalBody !== undefined &&
           !mergedHeaders["Content-Type"]
         ) {
@@ -132,9 +134,11 @@ export function useFetch<TData = unknown, TBody = unknown>({
             : undefined,
           body: isGet
             ? undefined
-            : finalBody !== undefined
-              ? JSON.stringify(finalBody)
-              : undefined,
+            : finalBody === undefined
+              ? undefined
+              : isFormData
+                ? (finalBody as FormData)
+                : JSON.stringify(finalBody),
           signal: controller.signal,
           credentials: "include",
         });
@@ -154,8 +158,9 @@ export function useFetch<TData = unknown, TBody = unknown>({
 
         return result;
       } catch (err) {
-        if ((err as Error).name === "AbortError") {
-          throw err;
+        // Aborts are intentional (cleanup, new request) — swallow them silently.
+        if (err instanceof DOMException && err.name === "AbortError") {
+          return;
         }
 
         const normalizedError =
@@ -165,7 +170,7 @@ export function useFetch<TData = unknown, TBody = unknown>({
           setError(normalizedError);
         }
 
-        throw normalizedError;
+        throw normalizedError; // real errors still surface to caller
       } finally {
         if (requestId === requestIdRef.current) {
           setLoading(false);
@@ -177,16 +182,8 @@ export function useFetch<TData = unknown, TBody = unknown>({
 
   useEffect(() => {
     if (manual || skip) return;
-
-    refetch().catch((err) => {
-      if ((err as Error).name !== "AbortError") {
-        // error already stored in state
-      }
-    });
-
-    return () => {
-      abortRef.current?.abort();
-    };
+    refetch();
+    return () => abortRef.current?.abort();
   }, [manual, skip, refetch]);
 
   return {

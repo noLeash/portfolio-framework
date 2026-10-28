@@ -15,22 +15,27 @@ services:
   backend-gcomollo:
     container_name: backend-gcomollo
     working_dir: /backend
+    volumes:
+      - ./backend/src:/backend
     command: >
-      sh -lc 'pip install . &&
-      alembic upgrade head &&
+      sh -c 'alembic upgrade head &&
       uvicorn main:app
       --host 0.0.0.0
       --port 6942
       --reload
-      --reload-dir /backend
-      --reload-include "*.py"
-      --reload-include "*.json"
-      --proxy-headers
-      --forwarded-allow-ips="*"'
+      --reload-dir /backend'
+    #   uvicorn main:app
+    #   --host 0.0.0.0
+    #   --port 6942
+    #   --reload
+    #   --reload-include "*.py"
+    #   --reload-include "*.json"
+    #   --proxy-headers
+    #   --forwarded-allow-ips="*"'
     ports:
       - "6943:6942"
     env_file:
-      - ./backend/.env.local
+      - ./backend/src/.env.local
     environment:
       PYTHONUNBUFFERED: "1"
       PYTHONPATH: /backend
@@ -41,11 +46,9 @@ services:
     build:
       context: .
       dockerfile: ./backend/Dockerfile
-    build:
-      context: .
-      dockerfile: ./backend/Dockerfile
       args:
         EXTRAS: notebook
+    networks:
       - shared-proxy
       - gcomollo-internal
 
@@ -58,7 +61,7 @@ services:
     ports:
       - "5437:5432"
     env_file:
-      - ./backend/.env.local
+      - ./backend/src/.env.local
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
@@ -67,31 +70,31 @@ services:
     networks:
       - gcomollo-internal
 
-  jupyter:
-    build:
-      context: .
-      dockerfile: ./backend/Dockerfile
-    env_file: [./backend/.env.local]
-    working_dir: /backend
-    volumes:
-      - ./backend:/backend
-      - ./backend/.jupyter:/root/.jupyter/jupyter_server_config.py
-    ports:
-      - "8889:8888"
-    command: >
-      jupyter lab
-      --ServerApp.ip=0.0.0.0
-      --ServerApp.port=8888
-      --ServerApp.root_dir=/backend
-      --ServerApp.allow_root=True
-    environment:
-      PYTHONUNBUFFERED: 1
-      PYTHONPATH: /backend
-      WATCHFILES_FORCE_POLLING: "true"
-    depends_on: [backend-gcomollo]
-    networks:
-      - gcomollo-internal
-    init: true
+  # jupyter:
+  #   build:
+  #     context: .
+  #     dockerfile: ./backend/Dockerfile
+  #   env_file: [./backend/src/.env.local]
+  #   working_dir: /backend/src
+  #   volumes:
+  #     - ./backend/src:/backend/src
+  #     - ./backend/src/.jupyter:/root/.jupyter/jupyter_server_config.py
+  #   ports:
+  #     - "8889:8888"
+  #   command: >
+  #     jupyter lab
+  #     --ServerApp.ip=0.0.0.0
+  #     --ServerApp.port=8888
+  #     --ServerApp.root_dir=/backend/src
+  #     --ServerApp.allow_root=True
+  #   environment:
+  #     PYTHONUNBUFFERED: 1
+  #     PYTHONPATH: /backend
+  #     WATCHFILES_FORCE_POLLING: "true"
+  #   depends_on: [backend-gcomollo]
+  #   networks:
+  #     - gcomollo-internal
+  #   init: true
 
 networks:
   shared-proxy:

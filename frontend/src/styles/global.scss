@@ -1,6 +1,7 @@
 // src/styles/global.scss
 
 @use "./_variables.scss" as variables;
+@use "./breakpoints" as bp;
 // @use "./_fonts" as fonts;
 // @use "rsuite/dist/rsuite.css";
 
@@ -26,19 +27,29 @@ body {
 
 h1 {
   font-size: variables.$font-h1-size;
+  padding: unset !important;
+  margin: unset !important;
 }
 
 h2 {
   font-size: variables.$font-h2-size;
+  padding: unset !important;
+  margin: unset !important;
+
+  @include bp.phone {
+    font-size: variables.$font-h2-size-phone;
+  }
 }
 
 h3 {
   font-size: variables.$font-h3-size;
+  padding: unset !important;
+  margin: unset !important;
   //   font-weight: variables.$font-weight-ultralight;
 }
 
 .key {
-  background-color: black;
+  font-size: variables.$font-copy-size;
 }
 
 .alert {
@@ -55,12 +66,35 @@ h3 {
 //   background-color: #4cafef;
 // }
 
+// The whole site is one viewport-sized box. Header and footer stay put and only
+// the main area scrolls: it starts below the transparent header and scrolls up
+// behind it, but stops at the opaque footer.
+.app-shell {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; // excludes mobile toolbars where supported
+  // the closed index sidebar sits just off the right edge; don't let it add a scrollbar
+  overflow: hidden;
+}
+
+// Spans the header's row too; the padding (header height, measured by
+// routes/app-layout.tsx) is where content starts and what it scrolls up into
+.site-main {
+  grid-row: 1 / 3;
+  grid-column: 1;
+  box-sizing: border-box;
+  padding-top: var(--site-header-height, 0px);
+  overflow: auto;
+}
+
 .main-container {
   display: flex;
   flex-direction: column;
   // row-gap: variables.$spacing-unit-large;
   // background-color: #0d6efd;
-  height: 100vh;
+  min-height: 100%;
   // padding: variables.$spacing-unit;
 }
 
@@ -73,6 +107,111 @@ h3 {
 //   cursor: pointer;
 // }
 
+// Transparent, over the top of the main area
+.site-header {
+  grid-row: 1;
+  grid-column: 1;
+  // width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  // height: 200px;
+  background-color: transparent;
+  // let the wheel and clicks through to the content behind; only controls catch them
+  pointer-events: none;
+
+  padding: 10px 10px;
+
+  a,
+  button {
+    pointer-events: auto;
+  }
+}
+
+.site-header__index-toggle {
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+
+  &[aria-expanded="true"] {
+    text-decoration: underline;
+  }
+}
+
+// Shares the main area's grid cell, so it sits between header and footer,
+// pinned to the right edge, and slides over the page from the right
+.index-sidebar {
+  grid-row: 2;
+  grid-column: 1;
+  justify-self: end;
+  z-index: 5;
+  width: min(300px, 85vw);
+  overflow-y: auto;
+  padding: 16px;
+  text-align: right;
+  // background-color: #fff;
+  // box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition:
+    transform 0.2s ease,
+    visibility 0.2s;
+
+  &.is-open {
+    transform: none;
+    visibility: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.index-sidebar__all {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.index-sidebar__group + .index-sidebar__group {
+  margin-top: 16px;
+}
+
+.index-sidebar__list {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+
+  li + li {
+    margin-top: 4px;
+  }
+
+  a.active {
+    font-weight: 600;
+  }
+}
+
+.index-sidebar__status {
+  opacity: 0.7;
+}
+
+// Opaque, in its own row below the main area
+.site-footer {
+  grid-row: 3;
+  z-index: 10;
+  padding: 10px 10px;
+  // background-color: blue;
+}
+
+.site-footer__nav {
+  display: flex;
+  justify-content: space-between;
+  // display: flex;
+  gap: 16px;
+}
 // .layout {
 // //   display: flex;
 // //   flex-direction: column;

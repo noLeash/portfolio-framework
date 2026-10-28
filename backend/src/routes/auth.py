@@ -23,7 +23,7 @@ async def login_for_access_token(
     user = crud_user.find_user_by_username(form_data.username)
     verified = verify_password(form_data.password, user.password_hash)
 
-    pprint.pp(request.__dict__)
+    # pprint.pp(request.__dict__)
 
     log_login = UserLoginRequest(
         host=request.client.host if request.client else None,
@@ -41,7 +41,7 @@ async def login_for_access_token(
 
     crud_user.log_user_entry(user=user, user_ip_login=log_login)
 
-    pprint.pp(log_login.__dict__)
+    # pprint.pp(log_login.__dict__)
     if not verified:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

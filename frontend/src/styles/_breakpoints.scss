@@ -1,0 +1,42 @@
+// Device breakpoints for the whole site. Keep in sync with src/breakpoints.ts,
+// which the components use for the same queries in JavaScript.
+//
+//   phone    up to 743px   (every phone in portrait; iPad mini portrait is 744)
+//   tablet   744–1023px    (iPads in portrait)
+//   desktop  1024px and up (iPads in landscape, laptops)
+//
+// Usage:
+//   @use "../breakpoints" as bp;
+//   .thing { @include bp.phone { ... } }
+
+$phone-max: 768px;
+$desktop-min: 1024px;
+
+$phone: "(max-width: #{$phone-max})";
+$tablet: "(min-width: #{$phone-max + 1}) and (max-width: #{$desktop-min - 1})";
+$tablet-up: "(min-width: #{$phone-max + 1})";
+$desktop: "(min-width: #{$desktop-min})";
+
+@mixin phone {
+  @media #{$phone} {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media #{$tablet} {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media #{$tablet-up} {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media #{$desktop} {
+    @content;
+  }
+}

@@ -1,0 +1,247 @@
+@use "../variables" as variables;
+
+.collections-admin {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.collections-admin__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  h2,
+  h3 {
+    margin: 0;
+  }
+}
+
+.collections-admin__help {
+  margin: 0;
+  opacity: 0.75;
+}
+
+.collections-admin__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+
+    &.is-active {
+      border-color: variables.$primary-color;
+      box-shadow: inset 4px 0 0 variables.$primary-color;
+    }
+  }
+}
+
+.collections-admin__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.collections-admin__active {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.collections-admin__form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.collections-admin__details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  .rs-input {
+    width: auto;
+    flex: 1 1 200px;
+  }
+}
+
+// Editor preview: tiles scale with the display size so the mix is visible
+.collection-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.collection-items__item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+
+  img,
+  video {
+    display: block;
+    width: auto;
+    max-width: 260px;
+    object-fit: contain;
+  }
+
+  &.is-s :is(img, video) {
+    height: 80px;
+  }
+
+  &.is-m :is(img, video) {
+    height: 120px;
+  }
+
+  &.is-l :is(img, video) {
+    height: 180px;
+  }
+
+  &.is-dragging {
+    opacity: 0.5;
+  }
+}
+
+.collection-items__handle {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 2px;
+  cursor: grab;
+  user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.collection-items__thumb {
+  position: relative;
+  align-self: flex-start;
+}
+
+// Marks videos in thumbnails
+.media-thumb__video {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.collection-items__source {
+  opacity: 0.7;
+}
+
+.collection-items__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.image-picker__portfolio {
+  margin-bottom: 16px;
+
+  h4 {
+    margin: 0 0 8px;
+  }
+}
+
+.image-picker__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+}
+
+.image-picker__item {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #eee;
+  cursor: pointer;
+
+  img,
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &.is-selected {
+    border-color: variables.$primary-color;
+  }
+
+  &:focus-visible {
+    outline: 3px solid variables.$primary-color;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+}
+
+.image-picker__badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 22px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: variables.$primary-color;
+  color: #fff;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.image-picker__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.image-picker__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}

@@ -1,20 +1,6 @@
-import { useAuth } from "../components/hooks/useAuth";
+import Landing from "../components/Collections/Landing";
 
+// The live image collection is the landing page, for visitors and admins alike
 export default function Home() {
-  const { isAuthenticated, user } = useAuth();
-  if (isAuthenticated) {
-    return (
-      <>
-        <h2>Home Page</h2> <h3>User: {user?.sub}</h3>Logged In
-      </>
-    );
-  }
-  //  else {
-  //   return (
-  //     <>
-  //       Log in:
-  //       <Login />
-  //     </>
-  //   );
-  // }
+  return <Landing />;
 }

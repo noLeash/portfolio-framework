@@ -1,0 +1,105 @@
+@use "../variables" as variables;
+@use "../breakpoints" as bp;
+@use "sass:string";
+
+// The /index page (components/Index/IndexPage.tsx): an even grid of project
+// covers, each with its name on a white label over the bottom of the image
+$index-gap: clamp(20px, 4.4vw, 88px);
+// every cover is cropped to this shape so the rows line up
+$index-card-ratio: string.unquote("4 / 3");
+$index-label-font: Baskerville, "Libre Baskerville", "Iowan Old Style", Georgia, serif;
+
+.index-status {
+  padding: 24px 16px;
+}
+
+.index-page {
+  padding: $index-gap clamp(16px, 3.9vw, 80px);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// 1 column on phones, 2 on tablets, 3 on desktop. Keep CARD_SIZES in
+// IndexPage in step when changing these
+.index-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $index-gap;
+
+  @include bp.tablet-up {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include bp.desktop {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.index-card {
+  // the label's inset scales with the card's width
+  container-type: inline-size;
+  position: relative;
+  display: block;
+  color: #111;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: #111;
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline: 3px solid variables.$primary-color;
+    outline-offset: 4px;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s ease;
+  }
+
+  &:hover img,
+  &:focus-visible img {
+    filter: brightness(0.85);
+  }
+}
+
+// also the grey placeholder when a project has no cover
+.index-card__cover {
+  aspect-ratio: $index-card-ratio;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+.index-card__label {
+  position: absolute;
+  left: 5cqi;
+  right: 5cqi;
+  bottom: 5cqi;
+  padding: 0.9em 1em;
+  background-color: #fff;
+  font-family: $index-label-font;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index-card img {
+    transition: none;
+  }
+}

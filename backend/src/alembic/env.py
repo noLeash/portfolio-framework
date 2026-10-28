@@ -20,7 +20,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # Import Models
-from models import user
+from models import user, portfolio, image_collection, project_group
 
 # ---------------------------------------------------------------------
 # Load environment variables
@@ -30,7 +30,7 @@ from pathlib import Path
 
 BASE_DIR = Path().resolve().parents[0]   # adjust if needed
 print(f"BASE_DIR: {BASE_DIR}")
-env_path = BASE_DIR / "backend" / ".env.local"               # if .env.local is inside backend/
+env_path = BASE_DIR / "backend" / "src" / ".env.local"               # if .env.local is inside backend/
 print(f"env_path: {env_path}")
 
 # print("Looking for:", env_path)

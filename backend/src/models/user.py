@@ -14,7 +14,6 @@ from sqlalchemy.dialects.postgresql import INET, UUID
 
 class User(Base, TimestampMixin):
     __tablename__ = "users"
-    __table_args__ = {"schema": "public"}
 
     id: Mapped[str] = mapped_column(
         UUID(as_uuid=True),
@@ -67,7 +66,6 @@ class UserLoginIP(Base, TimestampMixin):
         Index("idx_user_login_ips_ip_address", "ip_address"),
         Index("idx_user_login_ips_logged_in_at", "created_at"),
         Index("idx_user_login_ips_user_time", "user_id", "created_at"),
-        {"schema": "public"},
     )
 
     id: Mapped[int] = mapped_column(
@@ -77,7 +75,7 @@ class UserLoginIP(Base, TimestampMixin):
 
     user_id: Mapped[str] = mapped_column(
         UUID(as_uuid=True),
-        ForeignKey("public.users.id", ondelete="CASCADE"),
+        ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
     )
 

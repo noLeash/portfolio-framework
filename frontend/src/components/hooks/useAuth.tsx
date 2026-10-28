@@ -1,7 +1,6 @@
 import React, {
   createContext,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -43,12 +42,11 @@ const decodeToken = (token: string): DecodedToken | null => {
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(TOKEN_KEY);
-    if (stored) setToken(stored);
-  }, []);
+  // Read synchronously so the first render already knows the auth state.
+  // The window check covers the build-time prerender, which runs in Node.
+  const [token, setToken] = useState<string | null>(() =>
+    typeof window === "undefined" ? null : localStorage.getItem(TOKEN_KEY),
+  );
 
   const user = useMemo(() => {
     if (!token) return null;
