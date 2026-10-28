@@ -4,6 +4,32 @@ import { reactRouter } from "@react-router/dev/vite";
 
 export default defineConfig({
   plugins: [reactRouter()],
+  // Force a single React copy; mismatched pre-bundles caused "reading 'useContext'" of null
+  resolve: {
+    dedupe: ["react", "react-dom", "react-router"],
+  },
+  // Pre-bundle deep imports up front so Vite doesn't re-optimize mid-session
+  optimizeDeps: {
+    include: [
+      "react",
+      "react-dom",
+      "react-dom/client",
+      "react-router",
+      "rsuite",
+      "rsuite/esm/internals/Overlay/Modal",
+      "@rsuite/icons/Trash",
+      "@rsuite/icons/Edit",
+      "@rsuite/icons/Dragable",
+      "@rsuite/icons/Save",
+      "@rsuite/icons/RemindFill",
+      "@rsuite/icons/Reload",
+      "@rsuite/icons/Copy",
+      "@rsuite/icons/Close",
+      "@rsuite/icons/CheckOutline",
+      "react-icons/rx",
+      "jwt-decode",
+    ],
+  },
   server: {
     host: "0.0.0.0",
     port: 5172,
